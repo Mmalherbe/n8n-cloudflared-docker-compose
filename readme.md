@@ -1,132 +1,118 @@
-n8n Cloudflare Docker Setup 🚀
 
-Automate your workflows with n8n, an open-source workflow automation tool, using Docker and Cloudflare Tunnel. This repository provides an easy way to deploy an n8n instance with Cloudflare protection using Docker Compose.
+# n8n Cloudflare Docker Setup 🚀
 
-🌐 What is n8n?
+Automate your workflows with **n8n**, an open-source workflow automation tool, using **Docker** and **Cloudflare Tunnel**. 
+This repository provides an easy way to deploy an **n8n** instance with **Cloudflare** protection using **Docker Compose**.
 
-n8n is an open-source workflow automation tool that lets you automate repetitive tasks and integrate with over 200+ applications. It provides a powerful, visual interface for designing workflows and supports complex business logic.
+## 🌐 What is n8n?
+**n8n** is an open-source workflow automation tool that lets you automate repetitive tasks and integrate with over 200+ applications. 
+It provides a powerful, visual interface for designing workflows and supports complex business logic.
 
-🐳 What is Docker?
+## 🐳 What is Docker?
+**Docker** is a platform that automates the deployment, scaling, and management of applications in isolated environments called containers. 
+By using Docker, you can ensure consistency across development, testing, and production environments.
 
-Docker is a platform that automates the deployment, scaling, and management of applications in isolated environments called containers. By using Docker, you can ensure consistency across development, testing, and production environments.
+## ☁️ What is Cloudflare Tunnel?
+**Cloudflare Tunnel** (formerly Argo Tunnel) allows you to securely expose your local web applications to the internet without needing to open ports or configure firewalls. 
+This setup ensures your n8n instance is protected by Cloudflare's security layer.
 
-☁️ What is Cloudflare Tunnel?
+---
 
-Cloudflare Tunnel (formerly Argo Tunnel) allows you to securely expose your local web applications to the internet without needing to open any ports or configure firewalls. This setup ensures that your n8n instance is protected by Cloudflare's security layer.
+## 🚀 Quick Start
 
-🚀 Quick Start
+### 🛠 Prerequisites
+Make sure you have the following installed:
 
-🛠 Prerequisites
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Cloudflare Account](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)
 
-Before you begin, ensure you have the following installed on your machine:
+### 📝 Setup Instructions
 
-Docker: Docker is essential to run containers and manage services like n8n, PostgreSQL, and Cloudflare.
-
-Docker Installation Guide
-
-Docker Compose: For orchestrating multiple Docker containers (PostgreSQL, n8n, Cloudflared).
-
-Docker Compose Installation Guide
-
-Cloudflare Account: You'll need a Cloudflare account and a domain for the subdomain you want to point to your n8n instance.
-
-Cloudflare Tunnel Setup Guide
-
-📝 Setup Instructions
-
-1. Clone this Repository
-
+#### 1. Clone this Repository
+```bash
 git clone https://github.com/yourusername/n8n-cloudflare-docker-setup.git
 cd n8n-cloudflare-docker-setup
+```
 
-2. Choose Your OS Script
+#### 2. Run the Setup Script
 
-For Windows, run setup-n8n.bat
+Choose your OS:
+- Windows: `setup-n8n.bat`
+- Linux/macOS: `setup-n8n.sh`
 
-For Linux/macOS, run setup-n8n.sh
+The script will prompt you for:
 
-The script will guide you through setting up the following:
+- Your desired subdomain (e.g., `n8n.example.com`)
+- An admin password
 
-n8n subdomain: Choose a subdomain like n8n.yourdomain.com for your instance.
+It will then:
 
-Password: Set a secure password for logging into the n8n editor.
+- Configure your environment files (.env)
+- Generate your Docker Compose setup
+- Create your Cloudflare tunnel credentials
 
-Docker Setup: The script will automatically create a docker-compose.yml file and other configuration files for you.
+#### 3. Cloudflare Authentication
+- The script will run `cloudflared tunnel login`
+- Authenticate through the browser to authorize the tunnel creation.
 
-3. Cloudflare Setup
-
-During the setup, you'll be asked to log in to Cloudflare and create a tunnel. This is how it works:
-
-Cloudflare Login: The script will trigger the cloudflared login command, opening your browser to log into your Cloudflare account.
-
-Create Tunnel: The script will create a tunnel called n8n-tunnel, and the connection will be secured by Cloudflare.
-
-Credentials: Cloudflare will generate a credentials file, which the script automatically places into the cloudflared folder.
-
-4. Starting Your n8n Instance
-
-Once the script completes, it will automatically start the Docker containers for:
-
-PostgreSQL: Stores your n8n data.
-
-n8n: Your automation platform.
-
-Cloudflared: Secures your connection and exposes n8n to the internet.
-
-To start everything manually, you can run:
-
+#### 4. Start n8n
+After setup, containers are automatically started. 
+To start manually later:
+```bash
 docker-compose up -d
+```
 
-🔧 Troubleshooting
+Access your instance via: `https://your-subdomain`
 
-If you run into any issues, the script will provide error messages along with suggestions for resolution. Here are some common problems:
+---
 
-❌ Docker Compose Errors
-
-Error: Docker Compose failed to start
-
-Fix: Make sure Docker Desktop is running and that docker-compose is properly installed.
-
-❌ Cloudflare Login Issues
-
-Error: Cloudflare login failed
-
-Fix: Ensure your browser is logged into Cloudflare and that you have selected a zone (your domain).
-
-❌ Missing Credentials
-
-Error: Couldn't find tunnel credentials
-
-Fix: Verify that Cloudflare generated the credentials file in ~/.cloudflared. You can manually upload it if needed.
-
-🔐 Security Note
-
-Ensure your Cloudflare Tunnel and Docker environment are properly secured with firewalls, authentication, and access controls to prevent unauthorized access.
-
-📜 File Structure
-
+## 📜 Project Structure
+```
 n8n-cloudflare-docker-setup/
-├── README.md           # Project documentation
-├── setup-n8n.bat       # Windows batch script for setup
-├── setup-n8n.sh        # Linux/macOS shell script for setup
-├── n8n-docker/         # Docker files and cloudflared folder
-│   ├── docker-compose.yml   # Docker Compose configuration
-│   ├── .env                 # Environment variables for n8n
-│   ├── cloudflared/         # Cloudflare tunnel credentials and config
-│   │   └── config.yml       # Cloudflare tunnel config
-└── └── n8n-tunnel.json      # Cloudflare Tunnel credentials
+├── README.md
+├── setup-n8n.bat
+├── setup-n8n.sh
+├── n8n-docker/
+│   ├── .env
+│   ├── docker-compose.yml
+│   └── cloudflared/
+│       ├── config.yml
+│       └── n8n-tunnel.json
+```
 
-💬 Support
+---
 
-If you encounter any issues, feel free to open an issue in this repository or search online using the error messages provided in the script.
+## 🔧 Troubleshooting
 
-🔗 Links
+### ❌ Docker Compose Errors
+- **Message**: Docker Compose failed to start.
+- **Solution**: Ensure Docker Engine is running and Docker Compose is installed.
 
-n8n Documentation
+### ❌ Cloudflare Login Issues
+- **Message**: Cloudflare login failed.
+- **Solution**: Ensure you are logged into the correct Cloudflare account in your browser.
 
-Docker Documentation
+### ❌ Missing Tunnel Credentials
+- **Message**: Couldn't find tunnel credentials.
+- **Solution**: Check if credentials were placed inside the `cloudflared/` directory.
 
-Cloudflare Tunnel Documentation
+### 🔒 Security Notice
+Always secure your server and use SSL (Cloudflare provides this automatically) to protect your credentials and data.
 
-Now your n8n instance is live with Cloudflare protection, running on Docker! Enjoy automating your workflows. 🎉
+---
 
+## 💬 Need Help?
+Open an [Issue](https://github.com/yourusername/n8n-cloudflare-docker-setup/issues) if you encounter problems. 
+You can also search the exact error message in Google or check the relevant documentation linked below.
+
+---
+
+## 🔗 Resources
+- [n8n Documentation](https://n8n.io/docs/)
+- [Docker Documentation](https://docs.docker.com/)
+- [Cloudflare Tunnel Documentation](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/)
+
+---
+
+Built with ❤️ to simplify workflow automation deployments!
